@@ -53,7 +53,7 @@ md.use(require('markdown-it-container'), 'question', {
 
             accordion_counter += 1
             // opening tag
-            console.log("m[1]", md.utils.escapeHtml(m[1]))
+            // console.log("m[1]", md.utils.escapeHtml(m[1]))
             let question = md.renderInline("Question: " + m[1])
             return question_template_begin.replaceAll('{{acc-id}}', accordion_counter).replaceAll('{{acc-question}}', question)
         } else {
@@ -76,7 +76,7 @@ md.use(require('markdown-it-container'), 'definition', {
 
             accordion_counter += 1
             // opening tag
-            console.log("m[1]", md.utils.escapeHtml(m[1]))
+            // console.log("m[1]", md.utils.escapeHtml(m[1]))
             let term = md.renderInline("Define: " + m[1]);
             return define_template_begin.replaceAll('{{TERM}}', term)
         } else {
@@ -97,7 +97,8 @@ function dropdown_generation(dict) {
 
 
 }
-
+let mk_question = []
+let mk_definition = []
 let template = fs.readFileSync('template/template_note.html').toString()
     .replace('{{NAVBAR_TITLE}}', settings.navbar_name)
 var nav_bar_lectures = {}
@@ -109,6 +110,22 @@ input_files.forEach(file => {
     let rendered_text = md.render(fs.readFileSync(file).toString())
     // console.log(rendered_text)
     let html_parse = HTMLParser.parse(rendered_text)
+    let div = html_parse.getElementsByTagName('div')
+
+    // let mk_question = div.filter(div_elem => div_elem.classList.contains('mkn-question'))
+    // let mk_answer = div.filter(div_elem => div_elem.classList.contains('mkn-answer'))
+    // for (let i = 0; i < mk_question.length; i++) {
+    //     question_list[mk_question[i].innerHTML] = mk_answer[i].innerHTML
+    // }
+
+    // let mk_term = div.filter(div_elem => div_elem.classList.contains('mkn-term'))
+    // let mk_definition = div.filter(div_elem => div_elem.classList.contains('mkn-definition'))
+    // for (let i = 0; i < mk_term.length; i++) {
+    //     definition_list[mk_term[i].innerHTML] = mk_definition[i].innerHTML
+    // }
+    mk_question.push(div.filter(elem => elem.classList.contains('mk-acc-question')).map(elem => elem.innerHTML).join('\n'))
+    mk_definition.push(div.filter(elem => elem.classList.contains('mk-acc-definition')).map(elem => elem.innerHTML).join('\n'))
+
     let title = html_parse.getElementsByTagName('h1')[0].childNodes[0]._rawText
 
     nav_bar_lectures[title] = name_is_going_to_be
@@ -117,9 +134,10 @@ input_files.forEach(file => {
     lecture_dict[name_is_going_to_be] = output
 
 });
-console.log(Object.entries(nav_bar_lectures))
-console.log(load_dropdown_item)
+// console.log(Object.entries(nav_bar_lectures))
+// console.log(load_dropdown_item)
 var nav_bar_dropdown = ''
+console.log(mk_question)
 
 
 let index_text = template
@@ -134,7 +152,7 @@ for (const [key, value] of Object.entries(nav_bar_lectures)) {
 
 
 for (const [name_is_going_to_be, output] of Object.entries(lecture_dict)) {
-
+    console.log(output)
     fs.writeFile('compiled/' + name_is_going_to_be, output.replace("{{LECTURE_DROPDOWN}}", nav_bar_dropdown), err => {
         if (err) {
             console.error(err);
@@ -152,4 +170,22 @@ fs.writeFile('compiled/' + 'index.html', index_text.replace('{{LECTURE_NOTES}}',
         }
         // file written successfully
     });
+
+
+fs.writeFile('compiled/' + 'questions.html', index_text.replace('{{LECTURE_NOTES}}', mk_question.join('\n')).replace("{{LECTURE_DROPDOWN}}", nav_bar_dropdown)
+    .replace('{{head-title}}', settings.html_title_prefix), err => {
+        if (err) {
+            console.error(err);
+        }
+        // file written successfully
+    });
+fs.writeFile('compiled/' + 'definitions.html', index_text.replace('{{LECTURE_NOTES}}', mk_definition.join('\n')).replace("{{LECTURE_DROPDOWN}}", nav_bar_dropdown)
+    .replace('{{head-title}}', settings.html_title_prefix), err => {
+        if (err) {
+            console.error(err);
+        }
+        // file written successfully
+    });
+
+let question_html = question_template_begin
 // console.log(settings)
