@@ -34,8 +34,8 @@ jobs:
         uses: actions/configure-pages@v2
       - name: Setup Node.js environment
         uses: actions/setup-node@v3.5.1
-      - name: node i
-        run: node i
+      - name: npm i
+        run: npm i
       - name: node .
         run: node .
       - name: Upload artifact
