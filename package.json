@@ -1,0 +1,25 @@
+{
+  "name": "notes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bin/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "hello": "./bin/index.js"
+  },
+  "dependencies": {
+    "markdown-it": "^13.0.1",
+    "markdown-it-container": "^3.0.0",
+    "markdown-it-modify-token": "^1.0.2",
+    "node-html-parser": "^6.1.1",
+    "markdown-it-abbr": "1.0.4",
+    "markdown-it-footnote": "3.0.3",
+    "markdown-it-sup": "1.0.0",
+    "markdown-it-sub": "1.0.0",
+    "markdown-it-emoji": "2.0.2"
+  }
+}

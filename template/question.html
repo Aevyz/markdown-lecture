@@ -1,0 +1,17 @@
+<div class="accordion" id="acc-{{acc-id}}">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="acc-heading-{{acc-id}}">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                data-bs-target="#acc-panel-{{acc-id}}" aria-expanded="true" aria-controls="acc-panel-{{acc-id}}">
+                <div class="mkn-question">{{acc-question}}</div>
+            </button>
+        </h2>
+        <div id="acc-panel-{{acc-id}}" class="accordion-collapse collapse" aria-labelledby="acc-heading-{{acc-id}}">
+            <div class="accordion-body">
+                <div class="mkn-answer">
+                    {{acc-answer}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

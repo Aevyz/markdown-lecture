@@ -1,0 +1,4 @@
+package-lock.json
+compiled/*.html
+bin/index_2.js
+node_modules/
