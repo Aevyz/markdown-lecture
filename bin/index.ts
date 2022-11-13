@@ -123,8 +123,8 @@ input_files.forEach(file => {
     // for (let i = 0; i < mk_term.length; i++) {
     //     definition_list[mk_term[i].innerHTML] = mk_definition[i].innerHTML
     // }
-    mk_question.push(div.filter(elem => elem.classList.contains('mk-acc-question')).map(elem => elem.innerHTML).join('\n'))
-    mk_definition.push(div.filter(elem => elem.classList.contains('mk-acc-definition')).map(elem => elem.innerHTML).join('\n'))
+    mk_question.push(div.filter(elem => elem.classList.contains('mk-acc-question')).map(elem => elem.outerHTML).join('\n'))
+    mk_definition.push(div.filter(elem => elem.classList.contains('mk-acc-definition')).map(elem => elem.outerHTML).join('\n'))
 
     let title = html_parse.getElementsByTagName('h1')[0].childNodes[0]._rawText
 
